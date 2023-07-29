@@ -3,22 +3,53 @@ using implementationCQRS.Command;
 using implementationCQRS.Models;
 using implementationCQRS.Queries;
 using implementationCQRS.Repositories;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.FileProviders;
+using System.Data.Common;
+using System.Data;
 using System.Reflection;
 
-var employeeCommand = new EmployeeCommands(new EmployeeCommandsRepository());
-employeeCommand.SaveEmployeeData(new Employee
+var builder = WebApplication.CreateBuilder(args);
+#region ConnectionStrings
+var connectionString = builder.Configuration.GetConnectionString("RozaneSQL");
+var contectionStrings = builder.Configuration.GetConnectionString("SqlServer");
+//builder.Services.AddDbContext<ApplicationDbContext>(op =>
+//                                                    op.UseSqlServer(connectionString));
+#endregion
+
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 {
-    Id = 200,
-    FirstName = "Jane",
-    LastName = "Smith",
-    Street = "150 Toronto Street",
-    City = "Toronto",
-    PostalCode = "j1j1j1",
-    DateOfBirth = new DateTime(2002, 2, 2)
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
-Console.WriteLine($"Employee data stored");
-// Query the Employee Domain to get data
-var employeeQuery = new EmployeeQueries(new EmployeeQueriesRepository());
-var employee = employeeQuery.FindByID(100);
-Console.WriteLine($"Employee ID:{employee.Id}, Name:{employee.FullName}, Address:{employee.Address}, Age:{employee.Age}");
-Console.ReadKey();
+builder.Services.AddSignalR();
+builder.Services.AddEndpointsApiExplorer();
+
+var app = builder.Build();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+    ForwardedHeaders.XForwardedProto
+});
+app.UseStaticFiles(new StaticFileOptions()
+{
+    OnPrepareResponse = ctx => {
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers",
+          "Origin, X-Requested-With, Content-Type, Accept");
+    },
+
+});
+app.UseCors("MyCorsPolicy");
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Employee}/{action=Test}/{id?}");
+});
+
+app.Run();
+
