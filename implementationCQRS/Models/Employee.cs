@@ -43,5 +43,10 @@ namespace implementationCQRS.Models
             get;
             set;
         }
+        public DateTime RegistrationDate 
+        {
+            get;
+            set;
+        }
     }
 }

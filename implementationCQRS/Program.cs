@@ -8,22 +8,36 @@ using Microsoft.Extensions.FileProviders;
 using System.Data.Common;
 using System.Data;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using implementationCQRS.Models.DbContext;
+using AutoMapper;
+using implementationCQRS.AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 #region ConnectionStrings
-var connectionString = builder.Configuration.GetConnectionString("RozaneSQL");
-var contectionStrings = builder.Configuration.GetConnectionString("SqlServer");
-//builder.Services.AddDbContext<ApplicationDbContext>(op =>
-//                                                    op.UseSqlServer(connectionString));
+var connectionString = builder.Configuration.GetConnectionString("SqlServer");
+builder.Services.AddDbContext<ApplicationDbContext>(op =>
+                                                    op.UseSqlServer(connectionString));
 #endregion
+//Mapper
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new AutoMapperProfile());
+});
+var mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
@@ -39,6 +53,11 @@ app.UseStaticFiles(new StaticFileOptions()
     },
 
 });
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 app.UseCors("MyCorsPolicy");
 app.UseHttpsRedirection();
 app.UseRouting();

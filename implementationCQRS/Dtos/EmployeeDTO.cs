@@ -28,5 +28,10 @@ namespace implementationCQRS.Dtos
             get;
             set;
         }
+        public string RegistrationDate
+        {
+            get;
+            set;
+        }
     }
 }
