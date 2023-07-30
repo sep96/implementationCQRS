@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using implementationCQRS.Command;
 using implementationCQRS.Dtos;
+using implementationCQRS.Events;
 using implementationCQRS.Models;
 using implementationCQRS.Models.DbContext;
 using MediatR;
@@ -12,11 +13,13 @@ namespace implementationCQRS.Handler
     {
         readonly ApplicationDbContext _context;
         readonly IMapper _mapper;
-      
-        public CreateEmployeeCommandHandler(ApplicationDbContext context, IMapper mapper)
+        readonly IMediator _mediator;
+
+        public CreateEmployeeCommandHandler(ApplicationDbContext context, IMapper mapper, IMediator mediator)
         {
             _context = context;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task<EmployeeDTO> Handle(CreateEmployeeCommand createEmployeeCommand, 
@@ -26,6 +29,8 @@ namespace implementationCQRS.Handler
             Employee customer = _mapper.Map<Employee>(createEmployeeCommand);
             await _context.Employee.AddAsync(customer, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            // Raising Event ...
+            await _mediator.Publish(new EmployeeCreatedEvent(customer.FirstName, customer.LastName, customer.RegistrationDate), cancellationToken);
             return _mapper.Map<EmployeeDTO>(customer);
         }
     }
