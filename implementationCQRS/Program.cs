@@ -14,6 +14,8 @@ using AutoMapper;
 using implementationCQRS.AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
+using implementationCQRS.Infrastructure.Behavior_;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 #region ConnectionStrings
@@ -35,6 +37,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 });
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSignalR();
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehavior<,>));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddSwaggerGen();

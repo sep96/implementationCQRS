@@ -29,6 +29,8 @@ namespace implementationCQRS.Handler
             Employee customer = _mapper.Map<Employee>(createEmployeeCommand);
             await _context.Employee.AddAsync(customer, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            // For testing PerformanceBehavior
+            await Task.Delay(5000, cancellationToken);
             // Raising Event ...
             await _mediator.Publish(new EmployeeCreatedEvent(customer.FirstName, customer.LastName, customer.RegistrationDate), cancellationToken);
             return _mapper.Map<EmployeeDTO>(customer);
