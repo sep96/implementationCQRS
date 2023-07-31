@@ -38,6 +38,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSignalR();
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehavior<,>));
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddSwaggerGen();

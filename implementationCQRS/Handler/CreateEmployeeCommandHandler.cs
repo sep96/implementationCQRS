@@ -31,6 +31,9 @@ namespace implementationCQRS.Handler
             await _context.SaveChangesAsync(cancellationToken);
             // For testing PerformanceBehavior
             await Task.Delay(5000, cancellationToken);
+
+            //throw new Exception("Exception For Rollback Transaction");
+
             // Raising Event ...
             await _mediator.Publish(new EmployeeCreatedEvent(customer.FirstName, customer.LastName, customer.RegistrationDate), cancellationToken);
             return _mapper.Map<EmployeeDTO>(customer);
