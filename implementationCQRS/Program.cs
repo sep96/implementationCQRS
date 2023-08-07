@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using implementationCQRS.Infrastructure.Behavior_;
 using MediatR;
+using implementationCQRS.Infrastructure.EventSource;
+using ProtoBuf.Meta;
 
 var builder = WebApplication.CreateBuilder(args);
 #region ConnectionStrings
@@ -39,6 +41,9 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSignalR();
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+//Thread Safe 
+builder.Services.AddSingleton<IEventStoreDbContext, EventStoreDbContext>();
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(EventLoggerBehavior<,>));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddSwaggerGen();
