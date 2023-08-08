@@ -44,6 +44,7 @@ builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehav
 //Thread Safe 
 builder.Services.AddSingleton<IEventStoreDbContext, EventStoreDbContext>();
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(EventLoggerBehavior<,>));
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddSwaggerGen();

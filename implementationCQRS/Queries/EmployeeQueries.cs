@@ -1,4 +1,7 @@
 ﻿using implementationCQRS.Dtos;
+using implementationCQRS.Models;
+using implementationCQRS.Queries.Caching;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +10,11 @@ using System.Threading.Tasks;
 
 namespace implementationCQRS.Queries
 {
-    public class EmployeeQueries
+    public class EmployeeQueries : IRequest<Employee>, ICachableQuery
     {
+        public int Id { get; init; }
+        public string Key => $"{nameof(EmployeeQueries)}-{Id}";
+    
         private readonly IEmployeeQueriesRepository _repository;
         public EmployeeQueries(IEmployeeQueriesRepository repository)
         {

@@ -7,12 +7,14 @@ namespace implementationCQRS.Infrastructure.EventSource
     {
         public async Task<IEventStoreConnection> GetConnection()
         {
+            var connectionSettings = ConnectionSettings.Create().DisableTls().Build();
             ///EventStore Cluster port 
-            IEventStoreConnection connection = EventStoreConnection.Create(
-                new IPEndPoint(IPAddress.Loopback, 2113),
+            IEventStoreConnection connection =
+                EventStoreConnection.Create(
+                    connectionSettings,
+                new IPEndPoint(IPAddress.Loopback, 1113),
                 nameof(implementationCQRS));
-
-            await connection.ConnectAsync();
+             connection.ConnectAsync().Wait();
 
             return connection;
         }

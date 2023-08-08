@@ -23,7 +23,7 @@ namespace implementationCQRS.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public string Test()
+        public async Task<string> Test()
         {
             var employeeCommand = new EmployeeCommands(new EmployeeCommandsRepository());
             employeeCommand.SaveEmployeeData(new Employee
@@ -41,7 +41,8 @@ namespace implementationCQRS.Controllers
             var employeeQuery = new EmployeeQueries(new EmployeeQueriesRepository());
             var employee = employeeQuery.FindByID(100);
             Console.WriteLine($"Employee ID:{employee.Id}, Name:{employee.FullName}, Address:{employee.Address}, Age:{employee.Age}");
-            Console.ReadKey();
+            //Console.ReadKey();
+            //var result = _mediator.CreateStream(null);
             return "OK";
         }
         [HttpPost]
