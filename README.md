@@ -11,7 +11,10 @@
      or use <a href="https://developers.eventstore.com/server/v22.10/installation.html#quick-start">docker compase</a> that  article is not covered :)<br>
      </p>
      
+Now we want to combine this repository with this tutorial from <a href="https://www.udemy.com/course/net-microservices-cqrs-event-sourcing-with-kafka">udemy </a>
 
+
+<br/>
 This repository will be updated continuously👷 .
 
 
