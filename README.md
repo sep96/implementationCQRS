@@ -1,20 +1,107 @@
 # implementationCQRS
 ![image](https://github.com/sep96/implementationCQRS/assets/30704455/06ac93a2-d790-4ebc-a715-18fcae5bd79e)<br>
-<h2>Project explanation</h1>
-<h4>&#x2022;Mediator implementation in .NET</h4>
-<h4>&#x2022; A validation library for .NET that uses fluent interfaces for building validation rules.</h4>
-<h4>&#x2022;Event Store stores your data as a series of immutable events over time, making it easy to build event-sourced applications.</h4>
-    <p>For Install Event Store from Chocolatey run as administrator CMD and enter  following commands : <br>
-       &#x2022;choco install eventstore-oss;<br>
-       &#x2022;EventStore.ClusterNode.exe --dev --db ./db --log ./logs;<br>
-       &#x2022;netsh http add urlacl url=http://+:2113/ user=DOMAIN\username;<br>
-     or use <a href="https://developers.eventstore.com/server/v22.10/installation.html#quick-start">docker compase</a> that  article is not covered :)<br>
-     </p>
-     
-Now we want to combine this repository with this tutorial from <a href="https://www.udemy.com/course/net-microservices-cqrs-event-sourcing-with-kafka">udemy </a>
+<h2>Prerequisites</h2>
+#1. .NET 6 SDK 
+
+https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 
 
-<br/>
+#2. Docker
+
+Download for Mac or Windows:
+https://www.docker.com/products/docker-desktop
+
+Download for Linux Ubuntu:
+https://docs.docker.com/engine/install/ubuntu/
+
+Download for Linux Debian:
+https://docs.docker.com/engine/install/debian/
+
+Download for Linux CentOS:
+https://docs.docker.com/engine/install/centos/
+
+Download for Linux Fedora:
+https://docs.docker.com/engine/install/fedora/
+
+Once installed, check Docker version:
+> docker --version
+
+#3. Create Docker Network - techbankNet 
+
+docker network create --attachable -d bridge mydockernetwork
+
+#4. Install or init docker compose 
+
+https://docs.docker.com/compose/install
+
+#5. Apache Kafka
+
+Create docker-compose.yml file with contents:
+
+version: "3.4"
+
+services:
+  zookeeper:
+    image: bitnami/zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+    volumes:
+      - "zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: bitnami/kafka
+    ports:
+      - "9092:9092"
+    restart: always
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+    depends_on:
+      - zookeeper
+
+volumes:
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
+   
+networks:
+  default:
+    external:
+      name: mydockernetwork
+    
+
+The run by executing the following command:
+
+> docker-compose up -d
+
+#6. MongoDB
+
+Run in Docker:
+docker run -it -d --name mongo-container \
+-p 27017:27017 --network mydockernetwork \
+--restart always \
+-v mongodb_data_container:/data/db \
+mongo:latest
+
+Download Client Tools – Robo 3T:
+https://robomongo.org/download
+
+#7. Microsoft SQL Server
+
+docker run -d --name sql-container \
+--network mydockernetwork \
+--restart always \
+-e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=$tr0ngS@P@ssw0rd02' -e 'MSSQL_PID=Express' \
+-p 1433:1433 mcr.microsoft.com/mssql/server:2017-latest-ubuntu 
+
+
 This repository will be updated continuously👷 .
 
 
