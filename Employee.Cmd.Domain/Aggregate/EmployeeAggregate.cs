@@ -95,7 +95,7 @@ namespace Employee.Cmd.Domain.Aggregate
             _vacation.Add(@event.Id, new Tuple<int, DateTime> ( @event.TotalDays, @event.StartDate ));
     
         }
-        public void DeleteEmployee(DeleteEmployeeEvent @event)
+        public void DeleteEmployee(DateTime deletedTime , string Name)
         {
             if (!_active)
             {
@@ -104,8 +104,8 @@ namespace Employee.Cmd.Domain.Aggregate
             RaiseEvent(new DeleteEmployeeEvent
             {
                 Id = _id,
-                DeletedDateTime= @event.DeletedDateTime,
-                Name= @event.Name
+                DeletedDateTime= deletedTime,
+                Name= Name
             });
         }
         public void Apply(DeleteEmployeeEvent @event)

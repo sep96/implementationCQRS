@@ -27,6 +27,12 @@ namespace Employee.Cmd.Api.Commands
         public async Task HandleAsync(DeleteEmployeeCommand command)
         {
             var aggregate = await _eventSourcing.GetByIdAsync(command.Id);
+            aggregate.DeleteEmployee(DateTime.Now , command.Name);
+            await _eventSourcing.SaveAsync(aggregate);
+        }
+        public async Task HandleAsync(DaysWorkCommand command)
+        {
+            var aggregate = await _eventSourcing.GetByIdAsync(command.Id);
             aggregate.DayAtWork();
             await _eventSourcing.SaveAsync(aggregate);
         }

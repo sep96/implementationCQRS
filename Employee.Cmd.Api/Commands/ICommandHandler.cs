@@ -6,5 +6,6 @@
         Task HandleAsync(EditDepartmentCommand command);
         Task HandleAsync(DeleteEmployeeCommand command);
         Task HandleAsync(AddVacationCommand command);
+        Task HandleAsync(DaysWorkCommand command);
     }
 }
