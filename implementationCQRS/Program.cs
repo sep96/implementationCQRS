@@ -18,7 +18,8 @@ using implementationCQRS.Infrastructure.Behavior_;
 using MediatR;
 using implementationCQRS.Infrastructure.EventSource;
 using ProtoBuf.Meta;
-
+//we have completed the development of createtion AI Command dispatcher interface as midiator and 
+// concread mediarot
 var builder = WebApplication.CreateBuilder(args);
 #region ConnectionStrings
 var connectionString = builder.Configuration.GetConnectionString("SqlServer");
