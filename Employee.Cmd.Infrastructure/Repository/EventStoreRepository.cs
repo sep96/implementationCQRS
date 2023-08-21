@@ -20,12 +20,15 @@ namespace Employee.Cmd.Infrastructure.Repository
             var mongoDataBase = mongoClient.GetDatabase(conf.Value.DataBase);
             _eventStoreCollection = mongoDataBase.GetCollection<EventModel>(conf.Value.CollectionName);
         }
-        public async  Task<List<EventModel>> GetEventsAsync(Guid AggregateId)
+
+        public async Task<List<EventModel>> FindByAggregateIdAsync(Guid AggregateId)
         {
             // configu await false used to avoid forcing the callbackto be on original contexxt or schaduler 
             //have benefits shuch as imptoving perfomance and avoiding deadlocks
-            return await _eventStoreCollection.Find(x=>x.AggregateIdentifier== AggregateId).ToListAsync().ConfigureAwait(false);
+            return await _eventStoreCollection.Find(x => x.AggregateIdentifier == AggregateId).ToListAsync().ConfigureAwait(false);
         }
+
+      
 
         public async  Task SaveAsync(EventModel @event)
             => await _eventStoreCollection.InsertOneAsync(@event).ConfigureAwait(false);

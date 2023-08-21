@@ -18,11 +18,11 @@ namespace Employee.Cmd.Domain.Aggregate
         {
             get => _active; set => _active = value;
         }
-        public EmployeeAggregate()
+        public EmployeeAggregate() 
         {
 
         }
-        public void EmployeeAggreagate(Guid id, string name, string Department)
+        public EmployeeAggregate(Guid id, string name, string Department)
         {
             RaiseEvent(new EmployeeCreatedEvent
             {
@@ -32,6 +32,7 @@ namespace Employee.Cmd.Domain.Aggregate
                 CreatedDateTime = DateTime.Now
             });
         }
+       
         public void Apply(EmployeeCreatedEvent @event)
         {
             _id = @event.Id;
