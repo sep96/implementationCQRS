@@ -22,7 +22,7 @@ namespace Employee.Cmd.Infrastructure.Producer
         }
         public async  Task ProducerAsynce<T>(string topic, T @event) where T : BaseEvent
         {
-            using (var producer = new ProducerBuilder<string , string>(_config)
+            using (var producer = new ProducerBuilder<string, string>(_config)
                 .SetKeySerializer(Serializers.Utf8)
                 .SetValueSerializer(Serializers.Utf8).
                 Build())
@@ -34,8 +34,8 @@ namespace Employee.Cmd.Infrastructure.Producer
                 };
                 var deliveryResult = await producer.ProduceAsync(topic, @eventmessage);
                 if (deliveryResult.Status == PersistenceStatus.NotPersisted)
-                    throw new Exception("Could not Produce kafka");            
-            
+                    throw new Exception("Could not Produce kafka");
+            }
         }
     }
 }
