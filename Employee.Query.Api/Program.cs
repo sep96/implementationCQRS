@@ -1,3 +1,8 @@
+using Employee.Query.Infrastructure.DataAccess;
+using implementationCQRS.Models;
+using implementationCQRS.Models.DbContext;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,7 +11,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//
+Action<DbContextOptionsBuilder> configureDbContext = o => o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+builder.Services.AddDbContext<Employee.Query.Infrastructure.DataAccess.ApplicationDbContext>(configureDbContext);
+builder.Services.AddSingleton<DataBaseContextFactory>(new DataBaseContextFactory(configureDbContext));
 
+//create database 
+var dbcontext = builder.Services.BuildServiceProvider().GetRequiredService<Employee.Query.Infrastructure.DataAccess.ApplicationDbContext>();
+dbcontext.Database.EnsureCreated();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

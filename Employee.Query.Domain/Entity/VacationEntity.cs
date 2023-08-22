@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Employee.Query.Domain.Entity
     [Table("Vacation")]
     public class VacationEntity
     {
+        [Key]
         public Guid VacationId { get; set; }
         public int TotalDays { get; set; }
 
