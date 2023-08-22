@@ -13,4 +13,12 @@
     <PackageReference Include="MongoDB.Driver" Version="2.21.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Employee.Query.Domain\Employee.Query.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataAccess\NewFolder\" />
+  </ItemGroup>
+
 </Project>
