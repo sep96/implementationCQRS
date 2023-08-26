@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Employee.Query.Infrastructure.Repositories
 {
-    internal class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly DataBaseContextFactory _contextFactory;
 

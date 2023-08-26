@@ -1,4 +1,7 @@
+using Employee.Query.Domain.Repositories;
 using Employee.Query.Infrastructure.DataAccess;
+using Employee.Query.Infrastructure.Handler;
+using Employee.Query.Infrastructure.Repositories;
 using implementationCQRS.Models;
 using implementationCQRS.Models.DbContext;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +18,9 @@ builder.Services.AddSwaggerGen();
 Action<DbContextOptionsBuilder> configureDbContext = o => o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
 builder.Services.AddDbContext<Employee.Query.Infrastructure.DataAccess.ApplicationDbContext>(configureDbContext);
 builder.Services.AddSingleton<DataBaseContextFactory>(new DataBaseContextFactory(configureDbContext));
-
+builder.Services.AddScoped<IEventHandler, Employee.Query.Infrastructure.Handler.EventHandler>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IVacationRespository, VacationRespository>();
 //create database 
 var dbcontext = builder.Services.BuildServiceProvider().GetRequiredService<Employee.Query.Infrastructure.DataAccess.ApplicationDbContext>();
 dbcontext.Database.EnsureCreated();
