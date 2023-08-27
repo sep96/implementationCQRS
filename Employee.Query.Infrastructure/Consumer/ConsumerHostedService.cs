@@ -28,7 +28,7 @@ namespace Employee.Query.Infrastructure.Consumer
             using (IServiceScope scoe = _serviceProvider.CreateScope()) {
                 var eventConsumer = scoe.ServiceProvider.GetRequiredService<IEventConsumer>();
                 var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
-                Task.Run(() => eventConsumer.Consumer(topic), cancellationToken) ;
+                Task.Run(() => eventConsumer.Consumer(topic) , cancellationToken) ;
             }
              //return
              await Task.CompletedTask;
