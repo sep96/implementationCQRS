@@ -48,6 +48,8 @@ namespace Employee.Query.Infrastructure.Consumer
                     if (hanlderMethod is null)
                         throw new Exception("Could not find Event Method");
                     hanlderMethod.Invoke(_handler, new object[] { @event });
+                    //Tell Kafka we have successfully consumed and handle the event and the commit method that we invoekd 
+
                     consumer.Commit(consumerResult);
 
                 }
