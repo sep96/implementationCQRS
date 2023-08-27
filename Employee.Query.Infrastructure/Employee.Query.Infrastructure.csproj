@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Employee.Common\Employee.Common.csproj" />
     <ProjectReference Include="..\Employee.Query.Domain\Employee.Query.Domain.csproj" />
-    <ProjectReference Include="..\implementationCQRS\implementationCQRS.csproj" />
   </ItemGroup>
 
 </Project>

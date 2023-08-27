@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "implementationCQRS", "implementationCQRS\implementationCQRS.csproj", "{CFFA1420-274A-41AF-AAF9-E5F2FF5088E1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Employee.CMD", "Employee.CMD", "{2144C239-1136-4264-B62A-CD0C9135F451}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Employee.Query", "Employee.Query", "{7D059184-2FD2-444B-AAAC-F4B877E8CF28}"
@@ -39,10 +37,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CFFA1420-274A-41AF-AAF9-E5F2FF5088E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFFA1420-274A-41AF-AAF9-E5F2FF5088E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CFFA1420-274A-41AF-AAF9-E5F2FF5088E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CFFA1420-274A-41AF-AAF9-E5F2FF5088E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3885B8E0-F35D-48A4-B89A-8981AF6ABE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3885B8E0-F35D-48A4-B89A-8981AF6ABE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3885B8E0-F35D-48A4-B89A-8981AF6ABE24}.Release|Any CPU.ActiveCfg = Release|Any CPU

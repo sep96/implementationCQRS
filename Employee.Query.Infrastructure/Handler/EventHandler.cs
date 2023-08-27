@@ -1,7 +1,6 @@
 ﻿using Employee.Common.Event;
 using Employee.Query.Domain.Entity;
 using Employee.Query.Domain.Repositories;
-using implementationCQRS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

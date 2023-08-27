@@ -1,7 +1,6 @@
 ﻿using Employee.Query.Domain.Entity;
 using Employee.Query.Domain.Repositories;
 using Employee.Query.Infrastructure.DataAccess;
-using implementationCQRS.Models;
 using Microsoft.EntityFrameworkCore;
 using SharpCompress.Common;
 using System;

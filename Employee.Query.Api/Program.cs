@@ -5,8 +5,7 @@ using Employee.Query.Infrastructure.Consumer;
 using Employee.Query.Infrastructure.DataAccess;
 using Employee.Query.Infrastructure.Handler;
 using Employee.Query.Infrastructure.Repositories;
-using implementationCQRS.Models;
-using implementationCQRS.Models.DbContext;
+
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
