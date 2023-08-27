@@ -1,4 +1,7 @@
+using Confluent.Kafka;
+using CQRS.Core.Consumer;
 using Employee.Query.Domain.Repositories;
+using Employee.Query.Infrastructure.Consumer;
 using Employee.Query.Infrastructure.DataAccess;
 using Employee.Query.Infrastructure.Handler;
 using Employee.Query.Infrastructure.Repositories;
@@ -21,6 +24,8 @@ builder.Services.AddSingleton<DataBaseContextFactory>(new DataBaseContextFactory
 builder.Services.AddScoped<IEventHandler, Employee.Query.Infrastructure.Handler.EventHandler>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IVacationRespository, VacationRespository>();
+builder.Services.Configure<ConsumerConfig>(builder.Configuration.GetSection(nameof(ConsumerConfig)));
+builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 //create database 
 var dbcontext = builder.Services.BuildServiceProvider().GetRequiredService<Employee.Query.Infrastructure.DataAccess.ApplicationDbContext>();
 dbcontext.Database.EnsureCreated();
