@@ -10,6 +10,6 @@ namespace Employee.Cmd.Infrastructure.Config
     {
         public string ConnectionString { get; set; }
         public string DataBase { get; set; }
-        public string CollectionName { get; set; }
+        public string Collection { get; set; }
     }
 }

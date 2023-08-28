@@ -16,9 +16,9 @@ namespace Employee.Cmd.Infrastructure.Repository
         private readonly IMongoCollection<EventModel> _eventStoreCollection;
         public EventStoreRepository(IOptions<MongoDbConfig> conf)
         {
-          //  var mongoClient = new MongoClient(conf.Value.CollectionName);
-         //   var mongoDataBase = mongoClient.GetDatabase(conf.Value.DataBase);
-          //  _eventStoreCollection = mongoDataBase.GetCollection<EventModel>(conf.Value.CollectionName);
+            var mongoClient = new MongoClient(conf.Value.ConnectionString);
+            var mongoDataBase = mongoClient.GetDatabase(conf.Value.DataBase);
+            _eventStoreCollection = mongoDataBase.GetCollection<EventModel>(conf.Value.Collection);
         }
 
         public async Task<List<EventModel>> FindByAggregateIdAsync(Guid AggregateId)
