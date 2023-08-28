@@ -35,7 +35,7 @@ namespace Employee.Cmd.Infrastructure.Hanlder
             await _eventStore.SaveEventAsync(agg.Id, agg.getUncommitedChanges, agg.Version);
             agg.MarkchangesAsCommit();
 
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
         }
     }
 }
