@@ -44,7 +44,7 @@ namespace Employee.Query.Infrastructure.Consumer
                     };
                     // base Event is abstract but we useing event json converter to do Polymorrphic jjson serializer 
                     var @event = JsonSerializer.Deserialize<BaseEvent>(consumerResult.Message.Value, option);
-                    var hanlderMethod = _handler.GetType().GetMethod("on", new Type[] { @event.GetType() });
+                    var hanlderMethod = _handler.GetType().GetMethod("On", new Type[] { @event.GetType() });
                     if (hanlderMethod is null)
                         throw new Exception("Could not find Event Method");
                     hanlderMethod.Invoke(_handler, new object[] { @event });
