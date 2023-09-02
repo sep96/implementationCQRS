@@ -29,7 +29,8 @@ namespace Employee.Query.Infrastructure.Handler
                 Department  =  @event.Department,
                 CreatedTime = DateTime.Now,
                 Vacations = new List<VacationEntity> () ,
-                DayofWorks = 0                 
+                DayofWorks = 0  ,
+                EmmployeeID = @event.Id
             };
             await _employeeRepository.CreateAsync(employee);
         }

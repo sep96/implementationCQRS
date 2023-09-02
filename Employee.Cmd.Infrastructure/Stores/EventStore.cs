@@ -26,7 +26,7 @@ namespace Employee.Cmd.Infrastructure.Stores
         public async Task<List<BaseEvent>> GetEventsAsync(Guid AggregateId)
         {
             var eventStream = await _eventStoreRepository.FindByAggregateIdAsync(AggregateId);
-            if (eventStream is null || eventStream.Any())
+            if (eventStream is null || !eventStream.Any())
                 throw new AggregatenotFoundExceptions("notFound");
             return eventStream.OrderByDescending(x => x.Version).Select(x => x.EventData).ToList();
         }
@@ -57,8 +57,6 @@ namespace Employee.Cmd.Infrastructure.Stores
                 var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
                 await _eventProducer.ProducerAsynce(topic, eve);
             }
-            
-
         }
     }
 }

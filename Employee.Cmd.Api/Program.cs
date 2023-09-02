@@ -1,5 +1,6 @@
 using Confluent.Kafka;
 using CQRS.Core.Domain;
+using CQRS.Core.Events;
 using CQRS.Core.Handler;
 using CQRS.Core.Infrastuctur;
 using CQRS.Core.Producer;
@@ -11,13 +12,23 @@ using Employee.Cmd.Infrastructure.Hanlder;
 using Employee.Cmd.Infrastructure.Producer;
 using Employee.Cmd.Infrastructure.Repository;
 using Employee.Cmd.Infrastructure.Stores;
+using Employee.Common.Event;
 using Microsoft.AspNetCore.DataProtection;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using System.Diagnostics.Tracing;
 
 var builder = WebApplication.CreateBuilder(args);
 
+BsonClassMap.RegisterClassMap<BaseEvent>();
+BsonClassMap.RegisterClassMap<EmployeeCreatedEvent>();
+BsonClassMap.RegisterClassMap<UpdateEmployeeEvent>();
+BsonClassMap.RegisterClassMap<DeleteEmployeeEvent>();
+BsonClassMap.RegisterClassMap<DayWorkEvent>();
+BsonClassMap.RegisterClassMap<AddVacationEvent>();
 // Add services to the container.
 builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
+
 builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(ProducerConfig)));
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
 //make sure added it aboce IEventStore .
