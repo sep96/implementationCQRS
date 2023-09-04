@@ -35,7 +35,7 @@ namespace Employee.Cmd.Infrastructure.Stores
         {
             var eventStream = await _eventStoreRepository.FindByAggregateIdAsync(Id);
             //^1 means event stream lenght minus 1 
-            if(expectedVersion != -1 && eventStream[^1].Version != -1)
+            if(expectedVersion != -1 && eventStream[^1].Version != expectedVersion)
                 throw new ConcurencyException(  );
             var version = expectedVersion;
             foreach(var eve in events)

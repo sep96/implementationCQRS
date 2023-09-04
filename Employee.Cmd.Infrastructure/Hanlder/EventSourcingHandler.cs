@@ -22,7 +22,7 @@ namespace Employee.Cmd.Infrastructure.Hanlder
         {
             var aggreaget = new EmployeeAggregate();
             var events = await _eventStore.GetEventsAsync(id);
-            if (events is null || events.Any())
+            if (events is null || !events.Any())
                 return aggreaget;
             aggreaget.RelayEvent(events);
             aggreaget.Version = events.Select(x => x.Version).Max();
