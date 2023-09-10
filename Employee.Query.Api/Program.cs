@@ -1,8 +1,10 @@
 using Confluent.Kafka;
 using CQRS.Core.Consumer;
+using Employee.Query.Api.Queries;
 using Employee.Query.Domain.Repositories;
 using Employee.Query.Infrastructure.Consumer;
 using Employee.Query.Infrastructure.DataAccess;
+using Employee.Query.Infrastructure.Dispatcher;
 using Employee.Query.Infrastructure.Handler;
 using Employee.Query.Infrastructure.Repositories;
 
@@ -23,9 +25,15 @@ builder.Services.AddSingleton<DataBaseContextFactory>(new DataBaseContextFactory
 builder.Services.AddScoped<IEventHandler, Employee.Query.Infrastructure.Handler.EventHandler>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IVacationRespository, VacationRespository>();
+builder.Services.AddScoped<IQureryHandler, QueryHaNDLER>();
 builder.Services.Configure<ConsumerConfig>(builder.Configuration.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 builder.Services.AddHostedService<ConsumerHostedService>();
+var queryHandler = builder.Services.BuildServiceProvider().GetRequiredService< IQureryHandler>();
+var dispatcher = new QueryDispatcher();
+dispatcher.RegisterHandler<FindAllEmployeeQuery>(queryHandler.hadnleAsync);
+dispatcher.RegisterHandler<FindbyIdEmployee>(queryHandler.hadnleAsync);
+//builder.Services.AddScoped()
 //create database 
 var dbcontext = builder.Services.BuildServiceProvider().GetRequiredService<Employee.Query.Infrastructure.DataAccess.ApplicationDbContext>();
 dbcontext.Database.EnsureCreated();
