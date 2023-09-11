@@ -1,6 +1,8 @@
 using Confluent.Kafka;
 using CQRS.Core.Consumer;
+using CQRS.Core.Infrastuctur;
 using Employee.Query.Api.Queries;
+using Employee.Query.Domain.Entity;
 using Employee.Query.Domain.Repositories;
 using Employee.Query.Infrastructure.Consumer;
 using Employee.Query.Infrastructure.DataAccess;
@@ -33,7 +35,7 @@ var queryHandler = builder.Services.BuildServiceProvider().GetRequiredService< I
 var dispatcher = new QueryDispatcher();
 dispatcher.RegisterHandler<FindAllEmployeeQuery>(queryHandler.hadnleAsync);
 dispatcher.RegisterHandler<FindbyIdEmployee>(queryHandler.hadnleAsync);
-//builder.Services.AddScoped()
+builder.Services.AddSingleton<IQueryDispatcher<EmployeeEntity>>(_ => dispatcher);
 //create database 
 var dbcontext = builder.Services.BuildServiceProvider().GetRequiredService<Employee.Query.Infrastructure.DataAccess.ApplicationDbContext>();
 dbcontext.Database.EnsureCreated();
