@@ -102,6 +102,5 @@ docker run -d --name sql-container \
 -p 1433:1433 mcr.microsoft.com/mssql/server:2017-latest-ubuntu 
 
 
-This repository will be updated continuously👷 .
 
 
